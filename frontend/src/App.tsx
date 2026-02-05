@@ -17,7 +17,7 @@ function App() {
     setLoading(true);
     setResult(null);
     try {
-      const response = await axios.post('http://localhost:8000/api/fix', {
+      const response = await axios.post('/api/fix', {
         code,
         error_log: errorLog
       });
