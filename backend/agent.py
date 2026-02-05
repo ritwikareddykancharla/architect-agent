@@ -17,9 +17,17 @@ class CodeFixResponse(BaseModel):
 
 class ArchitectAgent:
     def __init__(self):
-        # The client will use GOOGLE_API_KEY from environment by default
-        self.client = genai.Client()
+        self._client = None
         self.model_id = "gemini-2.0-flash"
+
+    @property
+    def client(self):
+        if self._client is None:
+            api_key = os.getenv("GOOGLE_API_KEY")
+            if not api_key:
+                raise ValueError("GOOGLE_API_KEY is not set in environment variables.")
+            self._client = genai.Client(api_key=api_key)
+        return self._client
 
     async def fix_code(self, request: CodeFixRequest) -> CodeFixResponse:
         prompt = f"""
@@ -33,24 +41,21 @@ class ArchitectAgent:
         ```
         
         ERROR LOG:
-        {request.error_log if request.error_log else "No error log provided. Look for logical errors or potential improvements."}
+        {request.error_log if request.error_log else "No error log provided."}
         
-        Provide your response in the following JSON format:
+        Provide your response in JSON format:
         {{
             "fixed_code": "the complete fixed code",
-            "explanation": "a concise explanation of what was wrong and how it was fixed"
+            "explanation": "a concise explanation"
         }}
         """
         
         response = self.client.models.generate_content(
             model=self.model_id,
             contents=prompt,
-            config={
-                'response_mime_type': 'application/json',
-            }
+            config={'response_mime_type': 'application/json'}
         )
         
-        # Parse the JSON response
         import json
         result = json.loads(response.text)
         return CodeFixResponse(**result)
