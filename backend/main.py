@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import os
-from backend.agent import agent, CodeFixRequest, CodeFixResponse
+from .agent import agent, CodeFixRequest, CodeFixResponse
 
 app = FastAPI(title="Architect Agent API")
 
