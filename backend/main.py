@@ -12,6 +12,10 @@ from agent import agent, CodeFixRequest, CodeFixResponse
 
 app = FastAPI(title="Architect Agent API")
 
+@app.get("/health")
+async def health():
+    return {"status": "ok", "cwd": os.getcwd()}
+
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
@@ -31,6 +35,8 @@ async def fix_code(request: CodeFixRequest):
 
 # --- Serve Frontend (Must be last) ---
 frontend_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend", "dist")
+print(f"DEBUG: Looking for frontend at: {frontend_path}")
+print(f"DEBUG: Exists? {os.path.exists(frontend_path)}")
 
 if os.path.exists(frontend_path):
     app.mount("/assets", StaticFiles(directory=os.path.join(frontend_path, "assets")), name="assets")
