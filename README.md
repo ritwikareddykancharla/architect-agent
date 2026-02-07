@@ -2,6 +2,13 @@
 
 > **"Current AI writes code but cannot maintain it. The Architect closes the loop."**
 
+. The Architect (Agent Coding)
+Focus: Self-Healing Systems & DevOps.
+The Problem: Current AI writes code but cannot maintain it.
+The Challenge: Build an agent that understands the software development lifecycle (SDLC).
+Example: An agent that monitors a GitHub repository, identifies a bug from a log file, reproduces it, writes a test case, fixes the code, and deploys the patch—all without human input.
+Example: An agent that refactors a legacy COBOL or Python 2 codebase into modern Rust/Go microservices.
+
 ![Status](https://img.shields.io/badge/Status-Hackathon_Prototype-blue)
 ![Stack](https://img.shields.io/badge/Stack-FastAPI_React_Gemini_2.0-orange)
 
